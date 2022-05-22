@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Flashlight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#455a64</item>
+        <item name="colorPrimaryDark">#1c313a</item>
+        <item name="colorAccent">#718792</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

@@ -19,10 +19,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 
+// most important term here:
+// appCompat changed to androidx as in version 6.2.3 it isn't working in my device and also
+// their is the occurrence of error in getCameraId()[0];
+
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton imageButton;
-    boolean state;
+    private ImageButton imageButton; // image will work as a button
+    private boolean state; // to know the state of flash (ON/OFF)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         imageButton = findViewById(R.id.torchBtn);
 
-//    using 'Dexter' for flash light permission
+//    used 'Dexter' for Camera's run time permission
 
         Dexter.withContext(this).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener() {
             @Override
@@ -56,14 +60,18 @@ public class MainActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!state) {
+                if (state == false) {
                     CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
                     try {
                         String cameraId = cameraManager.getCameraIdList()[0];
-                        cameraManager.setTorchMode(cameraId, true);
+
+//                      state = false and imageButton have been clicked
+//                      then state should change to true
+
                         state = true;
-                        imageButton.setImageResource(R.drawable.torch_on);
+                        cameraManager.setTorchMode(cameraId, state);
+                        imageButton.setImageResource(R.drawable.torch_on); // change the image
                     } catch (CameraAccessException e) {
                     }
                 } else {
@@ -71,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         String cameraId = cameraManager.getCameraIdList()[0];
-                        cameraManager.setTorchMode(cameraId, false);
+
+//                      state = false and imageButton have been clicked
+//                      then state should change to true
                         state = false;
+                        cameraManager.setTorchMode(cameraId, state);
                         imageButton.setImageResource(R.drawable.torch_off);
                     } catch (CameraAccessException e) {
                     }
